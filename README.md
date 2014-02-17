@@ -1,4 +1,10 @@
-giftd-php-client
+Giftd API PHP Client
 ================
 
-Giftd API PHP client
+This repository contains a PHP Client for the API of Giftd.ru project.
+
+**Requirements**:
+PHP >= 5.2.0
+php-cURL extension
+
+Take a look at example.php to find usage examples.
