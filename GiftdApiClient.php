@@ -49,11 +49,12 @@ class Giftd_Client
 
     public function query($method, $params = array(), $suppressExceptions = false)
     {
-        $params['signature'] = $this->calculateSignature($method, $params);
-        $params['user_id'] = $this->userId;
         if (isset($_SERVER['REMOTE_ADDR'])) {
             $params['client_ip'] = $_SERVER['REMOTE_ADDR'];
         }
+
+        $params['signature'] = $this->calculateSignature($method, $params);
+        $params['user_id'] = $this->userId;
 
         $result = $this->httpPost($this->baseUrl . $method, $params);
         if (empty($result['type'])) {
@@ -103,7 +104,6 @@ class Giftd_Client
                 switch ($response['code']) {
                     case static::ERROR_TOKEN_NOT_FOUND:
                     case static::ERROR_EXTERNAL_ID_NOT_FOUND:
-                    case static::ERROR_YOUR_ACCOUNT_IS_BANNED:
                         return null;
                     default:
                         $this->throwException($response);
