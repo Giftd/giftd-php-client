@@ -16,11 +16,11 @@ class Giftd_Client
     const ERROR_TOKEN_ALREADY_USED = "tokenAlreadyUsed";
     const ERROR_YOUR_ACCOUNT_IS_BANNED = "yourAccountIsBanned";
 
-    public function __construct($userId, $apiKey, $baseUrl = "https://api.giftd.ru/v1/")
+    public function __construct($userId, $apiKey)
     {
         $this->userId = $userId;
         $this->apiKey = $apiKey;
-        $this->baseUrl = $baseUrl;
+        $this->baseUrl = (defined('DEBUG') && DEBUG) ? "https://api.giftd.local/v1/" : "https://api.giftd.ru/v1/";
     }
 
     private function httpPost($url, array $params)
@@ -31,7 +31,7 @@ class Giftd_Client
             CURLOPT_POSTFIELDS => $params,
             CURLOPT_RETURNTRANSFER => 1,
         ));
-        if (getenv('APPLICATION_ENV') == 'development') {
+        if (defined('DEBUG') && DEBUG) {
             curl_setopt_array($ch, array(
                 CURLOPT_SSL_VERIFYHOST => 0,
                 CURLOPT_SSL_VERIFYPEER => 0,
@@ -51,6 +51,9 @@ class Giftd_Client
     {
         $params['signature'] = $this->calculateSignature($method, $params);
         $params['user_id'] = $this->userId;
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            $params['client_ip'] = $_SERVER['REMOTE_ADDR'];
+        }
 
         $result = $this->httpPost($this->baseUrl . $method, $params);
         if (empty($result['type'])) {
@@ -107,8 +110,7 @@ class Giftd_Client
                 }
                 break;
             case static::RESPONSE_TYPE_DATA:
-                $card = $this->constructGiftCard($response['data']);
-                return ($card->token_status == Giftd_Card::TOKEN_STATUS_OK) ? $card : null;
+                return $this->constructGiftCard($response['data']);
             default:
                 throw new Giftd_Exception("Unknown response type {$response['type']}");
         }
