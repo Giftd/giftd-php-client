@@ -23,7 +23,7 @@ class Giftd_Client
         $this->baseUrl = (defined('DEBUG') && DEBUG) ? "https://api.giftd.local/v1/" : "https://api.giftd.ru/v1/";
     }
 
-    private function httpPost($url, array $params)
+    private function httpPostCurl($url, array $params)
     {
         $ch = curl_init($url);
         curl_setopt_array($ch, array(
@@ -39,11 +39,41 @@ class Giftd_Client
         }
         $result = curl_exec($ch);
         if (curl_errno($ch)) {
-            throw new Giftd_NetworkException(curl_error($ch));
+            throw new Giftd_NetworkException("HTTP POST to $url failed: " . curl_error($ch));
         }
-        if (!($result = json_decode($result, true))) {
+        return $result;
+    }
+
+    private function httpPostFileGetContents($url, array $params)
+    {
+        $opts = array('http' =>
+            array(
+                'method'  => 'POST',
+                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'content' => http_build_query($params)
+            )
+        );
+        $context  = stream_context_create($opts);
+
+        $result = @file_get_contents($url, false, $context);
+        if (!$result) {
+            throw new Giftd_NetworkException("HTTP POST to $url failed or returned empty result");
+        }
+        return $result;
+    }
+
+    private function httpPost($url, array $params)
+    {
+        if (function_exists('curl_init')) {
+            $rawResult = $this->httpPostCurl($url, $params);
+        } else {
+            $rawResult = $this->httpPostFileGetContents($url, $params);
+        }
+
+        if (!($result = json_decode($rawResult, true))) {
             throw new Giftd_Exception("Giftd API returned malformed JSON, unable to decode it");
         }
+
         return $result;
     }
 
