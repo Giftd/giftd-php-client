@@ -296,6 +296,11 @@ class Giftd_Exception extends Exception
         $this->code = $code;
         $this->data = $data;
     }
+
+    public function __toString()
+    {
+        return parent::__toString() . ($this->code ? "; code = " . $this->code : null);
+    }
 }
 
 class Giftd_NetworkException extends Giftd_Exception
