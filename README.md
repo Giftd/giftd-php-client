@@ -21,4 +21,4 @@ Take a look at example.php to find usage examples.
 
 ### Support
 
-Ask any integration questions at support@giftd.ru.
+Please send your comments and questions to support@giftd.ru.
