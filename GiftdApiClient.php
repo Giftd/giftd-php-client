@@ -243,6 +243,7 @@ class Giftd_Card
     public $token_status;
     public $charge_details;
     public $token;
+    public $cannot_be_used_on_discounted_items;
 }
 
 /**
