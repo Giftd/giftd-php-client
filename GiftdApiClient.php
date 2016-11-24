@@ -122,15 +122,17 @@ class Giftd_Client
      * @param null $token
      * @param null $external_id
      * @param float $amountTotal
+     * @param string $client_ip
      * @return Giftd_Card|null
      * @throws Giftd_Exception
      */
-    public function check($token = null, $external_id = null, $amountTotal = null)
+    public function check($token = null, $external_id = null, $amountTotal = null, $client_ip = null)
     {
         $response = $this->query('gift/check', array(
             'token' => $token,
             'external_id' => $external_id,
-            'amount_total' => $amountTotal
+            'amount_total' => $amountTotal,
+            'client_ip' => $client_ip
         ), true);
         switch ($response['type']) {
             case static::RESPONSE_TYPE_ERROR:
@@ -176,17 +178,19 @@ class Giftd_Client
      * @param null $amountTotal
      * @param null $externalId
      * @param null $comment
+     * @param string $client_ip
      * @return Giftd_Card
      * @throws Giftd_Exception
      */
-    public function charge($token, $amount, $amountTotal = null, $externalId = null, $comment = null)
+    public function charge($token, $amount, $amountTotal = null, $externalId = null, $comment = null, $client_ip = null)
     {
         $result = $this->query('gift/charge', array(
             'token' => $token,
             'amount' => $amount,
             'amount_total' => $amountTotal,
             'external_id' => $externalId,
-            'comment' => $comment
+            'comment' => $comment,
+            'client_ip' => $client_ip
         ));
 
         return $this->constructGiftCard($result['data'], $token);
