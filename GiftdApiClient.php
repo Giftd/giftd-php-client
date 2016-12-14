@@ -251,6 +251,7 @@ class Giftd_Card
     public $charge_details;
     public $token;
     public $cannot_be_used_on_discounted_items;
+    public $is_free;
 }
 
 /**
