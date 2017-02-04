@@ -1,7 +1,9 @@
 {
   "name": "giftd/giftd-php-client",
   "description": "GIFTD API PHP client. Allows to check promo codes",
-  "keywords":["giftd","api"],
+  "keywords": ["giftd","api"],
+  "type": "library",
+  "license": "MIT",
   "require": {
     "php": "^5.3.3 || ^7.0"
   },

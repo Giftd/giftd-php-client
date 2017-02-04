@@ -13,6 +13,13 @@ Check out the full [API documentation](https://giftd.tech/api).
 
 Take a look at example.php to find usage examples.
 
+### Installation
+
+```
+composer require giftd/giftd-php-client
+
+```
+
 ### Basic usage example
 ```php
 <?php
