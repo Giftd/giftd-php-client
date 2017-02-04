@@ -16,17 +16,19 @@ Take a look at example.php to find usage examples.
 ### Basic usage example
 ```php
 <?php
-$currentBasketTotal = 900;
-$promoCodeFromUser = '1234-5678-9876-4321';
+$basketTotal = 900;
+$promoCode = '1234-5678-9876-4321';
 
 $giftdUserId = 1234;
 $giftdApiKey = '7815696ecbf1c96e6894b779456d330e'
+
 $apiClient = new Giftd\ApiClient($giftdUserId, $giftdApiKey);
-$card = $apiClient->checkByToken($, $currentBasketTotal);
+$card = $apiClient->checkByToken($promoCode, $basketTotal);
 if ($card) {
   if ($card->is_available) {
-    echo "Available amount for {$card->token}: {$card->amount_available}; minimum amount total: {$card->min_amount_total}";
-    // You may do $apiClient->charge($promoCodeFromUser, $card->amount_available) after user finishes the order;
+    echo "Available amount: {$card->amount_available}; minimum amount total: {$card->min_amount_total}";
+    // You may redeem this promocode after user finishes the order (i.e. charge the card):
+    // $apiClient->charge($promoCode, $card->amount_available)
   } else {
     echo "No amount available on the gift card";
   }
