@@ -5,6 +5,7 @@ class Giftd_Client
     private $userId;
     private $apiKey;
     private $baseUrl;
+    private $debug;
 
     const RESPONSE_TYPE_DATA = 'data';
     const RESPONSE_TYPE_ERROR = 'error';
@@ -16,11 +17,12 @@ class Giftd_Client
     const ERROR_TOKEN_ALREADY_USED = "tokenAlreadyUsed";
     const ERROR_YOUR_ACCOUNT_IS_BANNED = "yourAccountIsBanned";
 
-    public function __construct($userId, $apiKey)
+    public function __construct($userId, $apiKey, $debug = false)
     {
         $this->userId = $userId;
         $this->apiKey = $apiKey;
-        $this->baseUrl = (defined('DEBUG') && DEBUG) ? "https://api.giftd.local/v1/" : "https://api.giftd.ru/v1/";
+        $this->debug = $debug;
+        $this->baseUrl = $debug ? "https://api.giftd.local/v1/" : "https://api.giftd.ru/v1/";
     }
 
     private function httpPostCurl($url, array $params)
@@ -31,7 +33,7 @@ class Giftd_Client
             CURLOPT_POSTFIELDS => $params,
             CURLOPT_RETURNTRANSFER => 1,
         ));
-        if (defined('DEBUG') && DEBUG) {
+        if ($this->debug) {
             curl_setopt_array($ch, array(
                 CURLOPT_SSL_VERIFYHOST => 0,
                 CURLOPT_SSL_VERIFYPEER => 0,
