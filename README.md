@@ -17,7 +17,6 @@ Take a look at example.php to find usage examples.
 
 ```
 composer require giftd/giftd-php-client
-
 ```
 
 ### Basic usage example
