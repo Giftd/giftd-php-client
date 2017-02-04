@@ -26,7 +26,7 @@ $basketTotal = 900;
 $promoCode = '1234-5678-9876-4321';
 
 $giftdUserId = 1234;
-$giftdApiKey = '7815696ecbf1c96e6894b779456d330e'
+$giftdApiKey = '7815696ecbf1c96e6894b779456d330e';
 
 $apiClient = new Giftd\ApiClient($giftdUserId, $giftdApiKey);
 $card = $apiClient->checkByToken($promoCode, $basketTotal);
