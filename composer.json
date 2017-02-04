@@ -1,0 +1,21 @@
+{
+  "name": "giftd/giftd-php-client",
+  "description": "GIFTD API PHP client. Allows to check promo codes",
+  "keywords":["giftd","api"],
+  "require": {
+    "php": "^5.3.3 || ^7.0"
+  },
+  "authors": [
+    {
+      "name": "GIFTD",
+      "email": "support@giftd.tech",
+      "homepage": "https://giftd.tech",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-0" : {
+      "Giftd" : "src"
+    }
+  }
+}
