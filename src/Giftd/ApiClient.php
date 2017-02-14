@@ -2,6 +2,9 @@
 
 namespace Giftd;
 
+use Giftd\Exceptions\ApiException;
+use Giftd\Exceptions\NetworkException;
+
 class ApiClient
 {
     private $apiKey;

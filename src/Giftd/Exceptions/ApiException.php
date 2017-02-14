@@ -1,6 +1,6 @@
 <?php
 
-namespace Giftd;
+namespace Giftd\Exceptions;
 
 
 class ApiException extends \Exception
