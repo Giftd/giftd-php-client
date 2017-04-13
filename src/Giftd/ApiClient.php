@@ -10,6 +10,12 @@ class ApiClient
     private $apiKey;
     private $baseUrl = "https://api.giftd.tech/v1/";
 
+    /**
+     * Milliseconds to wait before the connection will be closed
+     * @var int $connectionTimeout
+     */
+    private $connectionTimeout = 0;
+
     const RESPONSE_TYPE_DATA = 'data';
     const RESPONSE_TYPE_ERROR = 'error';
 
@@ -26,6 +32,22 @@ class ApiClient
         $this->apiKey = $apiKey;
     }
 
+    /**
+     * @return int
+     */
+    public function getConnectionTimeout()
+    {
+        return $this->connectionTimeout;
+    }
+
+    /**
+     * @param int $connectionTimeout
+     */
+    public function setConnectionTimeout($connectionTimeout)
+    {
+        $this->connectionTimeout = $connectionTimeout;
+    }
+
     private function httpPostCurl($url, array $params)
     {
         $ch = curl_init($url);
@@ -33,6 +55,7 @@ class ApiClient
             CURLOPT_POST => 1,
             CURLOPT_POSTFIELDS => $params,
             CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_CONNECTTIMEOUT_MS => $this->connectionTimeout,
         ));
         $result = curl_exec($ch);
         if (curl_errno($ch)) {
@@ -121,7 +144,7 @@ class ApiClient
      * @param float $amountTotal
      * @param string $client_ip
      * @return Card|null
-     * @throws Exception
+     * @throws ApiException
      */
     public function check($token = null, $external_id = null, $amountTotal = null, $client_ip = null)
     {
