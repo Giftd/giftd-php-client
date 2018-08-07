@@ -9,10 +9,11 @@ namespace Giftd;
  * @property float $amount_available
  * @property integer $card_id,
  * @property string $card_title
- * @property string $owner_owner_name
+ * @property string $owner_name
  * @property string $owner_gender
  * @property bool $amount_total_required
  * @property float|null $min_amount_total
+ * @property float|null $discount_percent
  * @property string $charge_type
  * @property integer $created
  * @property integer $expires
@@ -40,6 +41,7 @@ class Card
     public $owner_gender;
     public $amount_total_required;
     public $min_amount_total;
+    public $discount_percent;
     public $charge_type;
     public $created;
     public $expires;
